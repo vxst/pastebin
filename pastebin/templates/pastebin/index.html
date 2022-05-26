@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pastebin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>Pastebin</h1>
+    <p>A simple pastebin app for demo on SemVer and Jenkins CI/CD</p>
+</header>
+<section id="get-section">
+    <form action="/get" method="post">{% csrf_token %}
+        <label for="title">The ID: </label>
+        <input type="text" id="title" name="title" placeholder="012345" required minlength="6" maxlength="6"><br>
+        <input type="submit" value="Get">
+    </form>
+</section>
+<section id="add-section">
+    <form action="/add" method="post">{% csrf_token %}
+        <label for="content">The Paste:</label><br>
+        <textarea id="content" name="content" class="textarea"></textarea><br>
+        <input type="submit" value="Submit">
+    </form>
+</section>
+<footer>
+    <p>Everything that has a beginning has an end.</p>
+</footer>
+</body>
+</html>
