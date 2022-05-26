@@ -1,4 +1,4 @@
-FROM python:3.9 AS builder
+FROM python:3.10 AS builder
 
 RUN apt-get update && \
     apt-get install libpq-dev -y && \
@@ -11,7 +11,7 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install  --no-cache-dir -r requirements.txt -t .
 
-FROM python:3.9-slim
+FROM python:3.10-slim
 
 RUN apt-get update && \
     apt-get install libpq5 -y && \
