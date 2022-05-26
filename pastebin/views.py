@@ -4,8 +4,10 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Paste
 from .form import *
+from django.views.decorators.csrf import csrf_exempt
 
 
+@csrf_exempt
 def add(request):
     if request.method != 'POST':
         return JsonResponse({"status": "bad_method"})
@@ -19,6 +21,7 @@ def add(request):
     return render(request, 'pastebin/code.html', {"code": title})
 
 
+@csrf_exempt
 def get(request):
     if request.method != 'POST':
         return JsonResponse({"status": "bad_method"})
