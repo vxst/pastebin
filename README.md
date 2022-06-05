@@ -18,3 +18,7 @@ The CI/CD pipeline is at the jenkins https://j.vx.st/job/pastebin/
 If the CI pipeline completed seccessfully
  * Deliver the docker image to dockerhub
  * Restart the deployment in kubernetes to use the lastest docker image
+
+## Demo
+
+The demo project is at https://paste.vx.st/
