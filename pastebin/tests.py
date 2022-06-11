@@ -45,14 +45,14 @@ class AppTests(TestCase):
 
     def test_add_and_get(self):
         client = Client()
-        content = f'{random.randrange(0, 1000000):06}'
+        content = f'{random.randrange(0, 10000000):07}'
 
         response = client.post('/add', {'content': content}, follow=True)
-        finder = re.compile(r"<h2>\d{6}</h2>")
+        finder = re.compile(r"<h2>\d{7}</h2>")
         code = finder.search(str(response.content))[0][4:-5]
 
         response = client.post('/get', {'title': code}, follow=True)
-        finder = re.compile(r">\d{6}<")
+        finder = re.compile(r">\d{7}<")
         value = finder.search(str(response.content))[0][1:-1]
 
         self.assertEqual(value, content)
