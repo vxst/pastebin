@@ -1,4 +1,5 @@
 import random
+import time
 
 from django.shortcuts import render
 from django.http import JsonResponse
@@ -14,9 +15,19 @@ def add(request):
     form = PasteForm(request.POST)
     if not form.is_valid():
         return JsonResponse({"status": "bad_form"})
+
     content = form.cleaned_data['content']
-    title = f'{random.randrange(0, 1000000):06}'
-    paste = Paste(title=title, content=content)
+    expire = int(time.time()) + 7 * 24 * 3600
+    collision = True
+    while collision:
+        try:
+            title = f'{random.randrange(0, 10000000):07}'
+            paste = Paste.objects.get(title=title)
+            if time.time() > paste.expire:
+                collision = False
+        except Paste.DoesNotExist:
+            collision = False
+    paste = Paste(title=title, content=content, expire=expire)
     paste.save()
     return render(request, 'pastebin/code.html', {"code": title})
 
@@ -32,6 +43,8 @@ def get(request):
     try:
         paste = Paste.objects.get(title=title)
     except Paste.DoesNotExist:
+        return render(request, 'pastebin/notfound.html')
+    if time.time() > paste.expire:
         return render(request, 'pastebin/notfound.html')
     content = paste.content
     return render(request, 'pastebin/content.html', {"content": content})
